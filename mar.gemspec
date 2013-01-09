@@ -14,7 +14,7 @@ You can either like python-style decorators, or you can hate them.  Frankly, I
 don't care which you choose.  Me?  I LIKE EM!  So here ya go.
 DESC
 
-  gem.homepage    = 'https://github.com/rubymotion/mar'
+  gem.homepage    = 'https://github.com/colinta/mar'
 
   gem.files        = `git ls-files`.split($\)
   gem.test_files   = gem.files.grep(%r{^spec/})
