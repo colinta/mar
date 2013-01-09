@@ -15,8 +15,8 @@ require 'mar'
 # so this is just how it's got to be.  On the other hand, it makes it very easy
 # to accept options and use those in the method decorator!
 def decorator(name)
-  lambda { |arg, &blk|
-    blk.call("MAR #{arg}! --from #{name}")
+  lambda { |original, arg, &blk|
+    original.call("MAR #{arg}! --from #{name}", &blk)
   }
 end
 
@@ -29,6 +29,13 @@ class Foo
   def bar  # this doesn't get changed at all, but let's make sure of that...
     'I get no respect, I tell ya\', no respect.'
   end
+
+  _ decorator('baz')  # this time, let's accept a block!
+  def baz(one_arg)
+    yield
+    one_arg
+  end
+
 end
 
 describe "Mar" do
@@ -42,6 +49,15 @@ describe "Mar" do
 
   it 'should NOT decorate Foo#bar' do
     @foo.bar.should == 'I get no respect, I tell ya\', no respect.'
+  end
+
+  it 'should decorate Foo#baz and accept a block' do
+    two = 1
+    nifty = @foo.baz('is nifty') {
+      two = 2
+    }
+    nifty.should == 'MAR is nifty! --from baz'
+    two.should == 2
   end
 end
 ```
