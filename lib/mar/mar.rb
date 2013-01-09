@@ -20,12 +20,12 @@ class Class
     if decorators.length > 0
       new_name = "marrrrrrrr_#{name}"
       alias_method new_name, name
-      define_method(name) { |*args|
+      define_method(name) { |*args, &outer_block|
         decorator = decorators[0]
-        here = lambda{ |*decorator_args, &blk|
-          self.send(new_name, *decorator_args, &blk)
+        original = lambda{ |*decorator_args, &inner_block|
+          self.send(new_name, *decorator_args, &inner_block)
         }
-        decorator.call(*args, &here)
+        decorator.call(original, *args, &outer_block)
       }
     end
   end
