@@ -5,7 +5,7 @@ Inspired by [this blog post][ruby-decorators], I started looking into what it
 might actually take to implement it.  Turns out, it can be done with just a few
 methods tacked onto `Class`.  It relies exclusively on Ruby Procs.
 
-Examble
+Example
 =======
 
 ```ruby
